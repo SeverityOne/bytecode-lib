@@ -1,25 +1,17 @@
 package com.severityone.bytecode;
 
-import com.severityone.bytecode.ConstantPoolTag.Generator;
-
 import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConstantPool {
 
-    private final ConstantPoolTag[] tags;
-    private final Generator[] generators;
-    private final Map<Integer, ConstantPoolEntry> entries = new HashMap<>();
+    private final ConstantPoolEntryInitialiser[] entries;
 
     public ConstantPool(final ByteBuffer buffer) {
         final int constantPoolCount = buffer.getShort();
-        tags = new ConstantPoolTag[constantPoolCount];
-        generators = new Generator[constantPoolCount];
+        entries = new ConstantPoolEntryInitialiser[constantPoolCount];
         for (int index = 1; index < constantPoolCount; ) {
             final ConstantPoolTag tag = ConstantPoolTag.from(buffer.get());
-            tags[index] = tag;
-            generators[index] = tag.getReader().read(buffer);
+            entries[index] = new ConstantPoolEntryInitialiser(tag, tag.getReader().read(buffer));
             index += tag.getSize();
         }
     }
@@ -41,16 +33,14 @@ public class ConstantPool {
     }
 
     public ConstantPoolEntry get(final int index) {
-        if (index < 1 || index >= tags.length) {
+        if (index < 1 || index >= entries.length) {
             throw new ArrayIndexOutOfBoundsException(index + " is out of bounds");
         }
-        return entries.computeIfAbsent(
-                index,
-                i -> new ConstantPoolEntry(tags[i], generators[i].generate(this)));
+        return entries[index].getEntry(this);
     }
 
     public int size() {
-        return entries.size();
+        return entries.length;
     }
 
     private Object get(final int index, final ConstantPoolTag expectedTag) {

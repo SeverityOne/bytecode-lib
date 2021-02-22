@@ -5,32 +5,19 @@ import java.util.Arrays;
 
 public class AttributeInfo {
 
-    private final int attributeNameIndex;
-    private final int attributeLength;
-    private final byte[] info;
-    private final ConstantPool constantPool;
+    private final String attributeName;
+    private final Object[] values;
 
-    public AttributeInfo(final ByteBuffer buffer, final ConstantPool constantPool) {
-        attributeNameIndex = buffer.getShort();
-        attributeLength = buffer.getInt();
-        info = new byte[attributeLength];
-        buffer.get(info);
-        this.constantPool = constantPool;
-    }
-
-    public int getAttributeNameIndex() {
-        return attributeNameIndex;
+    public AttributeInfo(final String attributeName, final Object[] values) {
+        this.attributeName = attributeName;
+        this.values = Arrays.copyOf(values, values.length);
     }
 
     public String getAttributeName() {
-        return constantPool.getString(attributeNameIndex);
+        return attributeName;
     }
 
-    public int getAttributeLength() {
-        return attributeLength;
-    }
-
-    public byte[] getInfo() {
-        return Arrays.copyOf(info, info.length);
+    public Object[] getValues() {
+        return Arrays.copyOf(values, values.length);
     }
 }

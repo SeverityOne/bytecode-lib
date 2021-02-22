@@ -1,6 +1,7 @@
 package com.severityone.bytecode.attrbutes;
 
-public class BootstrapMethods {
+import java.nio.ByteBuffer;
 
+public class BootstrapMethods {
 
 }

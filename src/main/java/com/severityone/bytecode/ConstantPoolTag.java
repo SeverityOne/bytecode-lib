@@ -60,18 +60,6 @@ enum ConstantPoolTag {
                        .orElseThrow(() -> new IllegalArgumentException("Unknown tag " + tag));
     }
 
-    @FunctionalInterface
-    interface Generator {
-
-        Object generate(ConstantPool constantPool);
-    }
-
-    @FunctionalInterface
-    interface Reader {
-
-        Generator read(ByteBuffer buffer);
-    }
-
     private static Reader readObject(final Function<ByteBuffer, Object> function) {
         return buffer -> classFile -> function.apply(buffer);
     }
