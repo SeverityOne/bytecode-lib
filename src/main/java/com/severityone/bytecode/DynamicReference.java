@@ -2,16 +2,16 @@ package com.severityone.bytecode;
 
 public class DynamicReference {
 
-    private final int bootstreapMethodIndex;
+    private final int bootstrapMethodIndex;
     private final NameAndTypeDescriptor nameAndTypeDescriptor;
 
-    public DynamicReference(final int bootstreapMethodIndex, final NameAndTypeDescriptor nameAndTypeDescriptor) {
-        this.bootstreapMethodIndex = bootstreapMethodIndex;
+    public DynamicReference(final int bootstrapMethodIndex, final NameAndTypeDescriptor nameAndTypeDescriptor) {
+        this.bootstrapMethodIndex = bootstrapMethodIndex;
         this.nameAndTypeDescriptor = nameAndTypeDescriptor;
     }
 
-    public int getBootstreapMethodIndex() {
-        return bootstreapMethodIndex;
+    public int getBootstrapMethodIndex() {
+        return bootstrapMethodIndex;
     }
 
     public NameAndTypeDescriptor getNameAndTypeDescriptor() {
@@ -20,6 +20,6 @@ public class DynamicReference {
 
     @Override
     public String toString() {
-        return String.valueOf(bootstreapMethodIndex) + ' ' + nameAndTypeDescriptor.toString();
+        return String.valueOf(bootstrapMethodIndex) + ' ' + nameAndTypeDescriptor.toString();
     }
 }
